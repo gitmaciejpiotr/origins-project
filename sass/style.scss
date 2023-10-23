@@ -1,0 +1,288 @@
+//*** MY COLORS ***/
+$blue1: #264868;
+$blue2: #3E6386;
+$green1: #59B7A9;
+
+//*** MY VARIABLES ***/
+$element-height: 40px;
+$transition150: all 150ms ease-in-out;
+$transition300: all 300ms ease-in-out;
+$screen-mobile: "only screen and (max-width : 767px)";
+$rollover: "&.active, &:active, &:hover, &:focus";
+$font-title: 'Old Standard TT', serif;
+$font-text: 'Rubik', sans-serif;
+
+//*** MY MIXINS ***/
+@mixin border-radius($b-rad...) {
+    -ms-border-radius: $b-rad;
+    -moz-border-radius: $b-rad;
+    -o-border-radius: $b-rad;
+    -webkit-border-radius: $b-rad;
+    -khtml-border-radius: $b-rad;
+    border-radius: $b-rad;
+}
+
+@mixin transition($transition...) {
+    -ms-transition: $transition;
+    -moz-transition: $transition;
+    -o-transition: $transition;
+    -webkit-transition: $transition;
+    -khtml-transition: $transition;
+    transition: $transition;
+}
+
+@mixin transform($transY...) {
+    -ms-transform: translateY(-$transY);
+    -moz-transform: translateY(-$transY);
+    -o-transform: translateY(-$transY);
+    -webkit-transform: translateY(-$transY);
+    -khtml-transform: translateY(-$transY);
+    transform: translateY(-$transY);
+}
+
+@mixin transform-all($transform...) {
+    -ms-transform: $transform;
+    -moz-transform: $transform;
+    -o-transform: $transform;
+    -webkit-transform: $transform;
+    -khtml-transform: $transform;
+    transform: $transform;
+}
+
+//*** MY FLEXBOX MIXINS ***/
+@mixin flexbox() {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -webkit-flexbox;
+    display: -moz-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+@mixin inline-flex() {
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -moz-inline-flex;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+}
+
+@mixin align-items($align...) {
+    -webkit-align-items: $align;
+    align-items: $align;
+}
+
+@mixin justify-content($justify...) {
+    -webkit-justify-content: $justify;
+    justify-content: $justify;
+}
+
+@mixin flex-direction($flexDirection...) {
+    -webkit-flex-direction: $flexDirection;
+    flex-direction: $flexDirection;
+}
+
+@mixin flex-center() {
+    @include flexbox();
+    @include align-items(center);
+    @include justify-content(center);
+}
+
+@mixin inline-flex-center() {
+    @include inline-flex();
+    @include align-items(center);
+    @include justify-content(center);
+}
+
+@mixin flex-between() {
+    @include flexbox();
+    @include align-items(center);
+    @include justify-content(space-between);
+}
+
+@mixin inline-flex-between() {
+    @include inline-flexbox();
+    @include align-items(center);
+    @include justify-content(space-between);
+}
+
+
+
+//*** QUICK NAV ***/
+.quick-nav {
+    opacity: .75;
+    position: fixed;
+    z-index: 2;
+    right: 0;
+    top: 40%;
+    width: $element-height;
+    background: rgba(darken($blue1, 20%), .0);
+    @include border-radius(50px);
+    @include transform(50%);
+    @include flexbox();
+    @include flex-direction(column);
+    @include align-items(center);
+    @include transition($transition300);
+
+    &:hover {
+        opacity: 1;
+        @include transition($transition150);
+    }
+
+    @media #{$screen-mobile} {
+        display: none;
+    }
+
+    &-item {
+        position: relative;
+        height: $element-height;
+        width: $element-height;
+        margin-bottom: 5px;
+        color: white;
+        opacity: 0.5;
+        text-decoration: none;
+        @include border-radius(2%);
+        @include flex-center();
+        @include transition($transition300);
+
+        #{$rollover} {
+            text-decoration: none;
+            opacity: 1;
+            // background: rgba(255, 255, 255, .5);
+            @include transition($transition150);
+
+            .quick-nav-title {
+                font-family: $font-text;
+                opacity: 1;
+                right: 40px;
+                @include transition($transition150);
+            }
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    &-title {
+        display: block;
+        pointer-events: none;
+        opacity: 0;
+        font-size: 12px;
+        color: white;
+        background: rgba($green1, .5);
+        text-align: right;
+        padding: 2px 12px;
+        position: absolute;
+        top: 50%;
+        right: 30px;
+        @include transform-all(translateY(-50%));
+        @include border-radius(50px);
+        @include transition($transition300);
+    }
+
+    .social-media {
+        position: absolute;
+        top: 110%;
+    }
+}
+
+//*** SCROLL TO TOP ***/
+.scroll-to-top {
+    cursor: pointer;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    outline: none;
+    border: none;
+    width: $element-height;
+    height: $element-height;
+    background: rgba(darken($blue1, 20%), .25);
+    color: white;
+    text-decoration: none;
+    @include flex-center();
+    @include border-radius(50% 50% 0 0);
+    @include transform-all(translateY(100%));
+    @include transition($transition300);
+
+    &.visible {
+        opacity: .25;
+        @include transform-all(translateY(0));
+    }
+
+    #{$rollover} {
+        opacity: 1;
+        text-decoration: none;
+        color: rgba(255, 255, 255, 0.9);
+    }
+}
+
+
+//*** PAGE STYLES ***/
+body {
+    background: linear-gradient(to bottom,
+            $blue2,
+            $blue1 );
+    color: $green1;
+}
+
+.container {
+    width: 100%;
+}
+
+.row {
+    height: 100vh;
+    @include flex-center();
+    @include flex-direction(column);
+    border-bottom: 1px solid white;
+}
+
+h3 {
+    color: #aaa;
+    letter-spacing: 1.65px;
+    font-weight: 100;
+}
+
+/* Splash */
+
+.splash {
+    background-image: url(../images/plantation.jpg);
+    background-size: cover;
+    background-position: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.splash .page-title,
+.splash .page-subtitle {
+    color: white;
+    text-shadow: black 4px 4px 8px;
+    font-weight: 300;
+    position: relative;
+    padding-bottom: 4px;
+    @include flex-center();
+
+    span {
+        font-size: 80px;
+        text-transform: uppercase;
+        letter-spacing: 30px;
+        // background: white;
+        color: #ddd;
+        text-shadow: black 6px 6px 12px;
+        padding: 3px 15px;
+        margin-left: 10px;
+        // @include border-radius(50px);
+    }
+}
+
+.splash .page-description {
+    font-family: $font-text;
+    font-weight: 100;
+    font-size: 24px;
+    color: white;
+    text-align: center;
+    text-transform: uppercase;
+}
